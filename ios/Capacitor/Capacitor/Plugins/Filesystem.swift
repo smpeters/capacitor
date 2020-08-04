@@ -49,11 +49,11 @@ public class CAPFilesystemPlugin: CAPPlugin {
     @objc func readFile(_ call: CAPPluginCall) {
         let encoding = call.getString("encoding")
 
-        guard let file = call.get("path", String.self) else {
+        guard let file = call.getString("path") else {
             handleError(call, "path must be provided and must be a string.")
             return
         }
-        let directoryOption = call.get("directory", String.self, defaultDirectory)!
+        let directoryOption = call.getString("directory", defaultDirectory)
 
         guard let fileUrl = getFileUrl(file, directoryOption) else {
             handleError(call, "Invalid path")
@@ -82,19 +82,19 @@ public class CAPFilesystemPlugin: CAPPlugin {
      */
     @objc func writeFile(_ call: CAPPluginCall) {
         let encoding = call.getString("encoding")
-        let recursive = call.get("recursive", Bool.self, false)!
+        let recursive = call.getBool("recursive", false)
         // TODO: Allow them to switch encoding
-        guard let file = call.get("path", String.self) else {
+        guard let file = call.getString("path") else {
             handleError(call, "path must be provided and must be a string.")
             return
         }
 
-        guard let data = call.get("data", String.self) else {
+        guard let data = call.getString("data") else {
             handleError(call, "Data must be provided and must be a string.")
             return
         }
 
-        let directoryOption = call.get("directory", String.self) ?? defaultDirectory
+        let directoryOption = call.getString("directory", defaultDirectory)
 
         guard let fileUrl = getFileUrl(file, directoryOption) else {
             handleError(call, "Invalid path")
@@ -135,17 +135,17 @@ public class CAPFilesystemPlugin: CAPPlugin {
     @objc func appendFile(_ call: CAPPluginCall) {
         let encoding = call.getString("encoding")
         // TODO: Allow them to switch encoding
-        guard let file = call.get("path", String.self) else {
+        guard let file = call.getString("path") else {
             handleError(call, "path must be provided and must be a string.")
             return
         }
 
-        guard let data = call.get("data", String.self) else {
+        guard let data = call.getString("data") else {
             handleError(call, "Data must be provided and must be a string.")
             return
         }
 
-        let directoryOption = call.get("directory", String.self) ?? defaultDirectory
+        let directoryOption = call.getString("directory", defaultDirectory)
         guard let fileUrl = getFileUrl(file, directoryOption) else {
             handleError(call, "Invalid path")
             return
@@ -199,12 +199,12 @@ public class CAPFilesystemPlugin: CAPPlugin {
     @objc func deleteFile(_ call: CAPPluginCall) {
         //let encoding = call.get("encoding") as? String ?? "utf8"
         // TODO: Allow them to switch encoding
-        guard let file = call.get("path", String.self) else {
+        guard let file = call.getString("path") else {
             handleError(call, "path must be provided and must be a string.")
             return
         }
 
-        let directoryOption = call.get("directory", String.self) ?? defaultDirectory
+        let directoryOption = call.getString("directory", defaultDirectory)
         guard let fileUrl = getFileUrl(file, directoryOption) else {
             handleError(call, "Invalid path")
             return
@@ -225,13 +225,13 @@ public class CAPFilesystemPlugin: CAPPlugin {
      * Make a new directory, optionally creating parent folders first.
      */
     @objc func mkdir(_ call: CAPPluginCall) {
-        guard let path = call.get("path", String.self) else {
+        guard let path = call.getString("path") else {
             handleError(call, "path must be provided and must be a string.")
             return
         }
 
-        let recursive = call.get("recursive", Bool.self, false)!
-        let directoryOption = call.get("directory", String.self, defaultDirectory)!
+        let recursive = call.getBool("recursive", false)
+        let directoryOption = call.getString("directory", defaultDirectory)
         guard let fileUrl = getFileUrl(path, directoryOption) else {
             handleError(call, "Invalid path")
             return
@@ -249,18 +249,18 @@ public class CAPFilesystemPlugin: CAPPlugin {
      * Remove a directory.
      */
     @objc func rmdir(_ call: CAPPluginCall) {
-        guard let path = call.get("path", String.self) else {
+        guard let path = call.getString("path") else {
             handleError(call, "path must be provided and must be a string.")
             return
         }
 
-        let directoryOption = call.get("directory", String.self, defaultDirectory)!
+        let directoryOption = call.getString("directory", defaultDirectory)
         guard let fileUrl = getFileUrl(path, directoryOption) else {
             handleError(call, "Invalid path")
             return
         }
 
-        let recursiveOption = call.get("recursive", Bool.self, false)!
+        let recursiveOption = call.getBool("recursive", false)
 
         do {
             let directoryContents = try FileManager.default.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil, options: [])
@@ -284,12 +284,12 @@ public class CAPFilesystemPlugin: CAPPlugin {
      * Read the contents of a directory.
      */
     @objc func readdir(_ call: CAPPluginCall) {
-        guard let path = call.get("path", String.self) else {
+        guard let path = call.getString("path") else {
             handleError(call, "path must be provided and must be a string.")
             return
         }
 
-        let directoryOption = call.get("directory", String.self, defaultDirectory)!
+        let directoryOption = call.getString("directory", defaultDirectory)
         guard let fileUrl = getFileUrl(path, directoryOption) else {
             handleError(call, "Invalid path")
             return
@@ -312,12 +312,12 @@ public class CAPFilesystemPlugin: CAPPlugin {
     }
 
     @objc func stat(_ call: CAPPluginCall) {
-        guard let path = call.get("path", String.self) else {
+        guard let path = call.getString("path") else {
             handleError(call, "path must be provided and must be a string.")
             return
         }
 
-        let directoryOption = call.get("directory", String.self, defaultDirectory)!
+        let directoryOption = call.getString("directory", defaultDirectory)
         guard let fileUrl = getFileUrl(path, directoryOption) else {
             handleError(call, "Invalid path")
             return
@@ -338,12 +338,12 @@ public class CAPFilesystemPlugin: CAPPlugin {
     }
 
     @objc func getUri(_ call: CAPPluginCall) {
-        guard let path = call.get("path", String.self) else {
+        guard let path = call.getString("path") else {
             handleError(call, "path must be provided and must be a string.")
             return
         }
 
-        let directoryOption = call.get("directory", String.self, defaultDirectory)!
+        let directoryOption = call.getString("directory", defaultDirectory)
         guard let fileUrl = getFileUrl(path, directoryOption) else {
             handleError(call, "Invalid path")
             return
@@ -373,13 +373,13 @@ public class CAPFilesystemPlugin: CAPPlugin {
      * Copy or rename a file or directory.
      */
     private func _copy(call: CAPPluginCall, doRename: Bool) {
-        guard let from = call.get("from", String.self), let to = call.get("to", String.self) else {
+        guard let from = call.getString("from"), let to = call.getString("to") else {
             handleError(call, "Both to and from must be provided")
             return
         }
 
-        let directoryOption = call.get("directory", String.self, defaultDirectory)!
-        var toDirectoryOption = call.get("toDirectory", String.self, "")!
+        let directoryOption = call.getString("directory", defaultDirectory)
+        var toDirectoryOption = call.getString("toDirectory", "")
 
         if toDirectoryOption == "" {
             toDirectoryOption = directoryOption

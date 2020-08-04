@@ -66,21 +66,21 @@ public class CAPCameraPlugin: CAPPlugin, UIImagePickerControllerDelegate, UINavi
 
     func getSettings(_ call: CAPPluginCall) -> CameraSettings {
         var settings = CameraSettings()
-        settings.quality = call.get("quality", Float.self, 100)!
-        settings.allowEditing = call.get("allowEditing", Bool.self, false)!
+        settings.quality = call.getFloat("quality", 100)
+        settings.allowEditing = call.getBool("allowEditing", false)
         settings.source = CameraSource(rawValue: call.getString("source") ?? defaultSource.rawValue) ?? defaultSource
         settings.direction = CameraDirection(rawValue: call.getString("direction") ?? defaultDirection.rawValue) ?? defaultDirection
-        settings.resultType = call.get("resultType", String.self, "base64")!
-        settings.saveToGallery = call.get("saveToGallery", Bool.self, false)!
+        settings.resultType = call.getString("resultType", "base64")
+        settings.saveToGallery = call.getBool("saveToGallery", false)
 
         // Get the new image dimensions if provided
-        settings.width = Float(call.get("width", Int.self, 0)!)
-        settings.height = Float(call.get("height", Int.self, 0)!)
+        settings.width = Float(call.getInt("width", 0))
+        settings.height = Float(call.getInt("height", 0))
         if settings.width > 0 || settings.height > 0 {
             // We resize only if a dimension was provided
             settings.shouldResize = true
         }
-        settings.shouldCorrectOrientation = call.get("correctOrientation", Bool.self, true)!
+        settings.shouldCorrectOrientation = call.getBool("correctOrientation", true)
 
         return settings
     }

@@ -118,7 +118,7 @@ public class CAPPhotosPlugin: CAPPlugin {
     func fetchAlbumsToJs(_ call: CAPPluginCall) {
         var albums = [JSObject]()
 
-        let loadSharedAlbums = call.getBool("loadShared", false)!
+        let loadSharedAlbums = call.getBool("loadShared", false)
 
         // Load our smart albums
         var fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil)
@@ -160,7 +160,7 @@ public class CAPPhotosPlugin: CAPPlugin {
 
         let albumId = call.getString("albumIdentifier")
 
-        let quantity = call.getInt("quantity", CAPPhotosPlugin.defaultQuantity)!
+        let quantity = call.getInt("quantity", CAPPhotosPlugin.defaultQuantity)
 
         var targetCollection: PHAssetCollection?
 
@@ -185,10 +185,10 @@ public class CAPPhotosPlugin: CAPPlugin {
         //let after = call.getString("after")
 
         let types = call.getString("types") ?? CAPPhotosPlugin.defaultTypes
-        let thumbnailWidth = call.getInt("thumbnailWidth", CAPPhotosPlugin.defaultThumbnailWidth)!
-        let thumbnailHeight = call.getInt("thumbnailHeight", CAPPhotosPlugin.defaultThumbnailHeight)!
+        let thumbnailWidth = call.getInt("thumbnailWidth", CAPPhotosPlugin.defaultThumbnailWidth)
+        let thumbnailHeight = call.getInt("thumbnailHeight", CAPPhotosPlugin.defaultThumbnailHeight)
         let thumbnailSize = CGSize(width: thumbnailWidth, height: thumbnailHeight)
-        let thumbnailQuality = call.getInt("thumbnailQuality", 95)!
+        let thumbnailQuality = call.getInt("thumbnailQuality", 95)
 
         let requestOptions = PHImageRequestOptions()
         requestOptions.isNetworkAccessAllowed = true
@@ -222,8 +222,8 @@ public class CAPPhotosPlugin: CAPPlugin {
                 }
                 object["fullWidth"] = asset.pixelWidth
                 object["fullHeight"] = asset.pixelHeight
-                object["thumbnailWidth"] = image.size.width
-                object["thumbnailHeight"] = image.size.height
+                object["thumbnailWidth"] = Double(image.size.width)
+                object["thumbnailHeight"] = Double(image.size.height)
                 object["location"] = self.makeLocation(asset)
 
                 assets.append(object)

@@ -107,6 +107,9 @@ public class CAPModalsPlugin: CAPPlugin {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
 
         for (index, option) in options.enumerated() {
+            guard let option = option as? JSObject else {
+                continue
+            }
             let style = option["style"] as? String ?? "DEFAULT"
             let title = option["title"] as? String ?? ""
             var buttonStyle: UIAlertAction.Style = .default
