@@ -99,8 +99,8 @@ public class CAPBridgeViewController: UIViewController, CAPBridgeDelegate, WKUID
         bridge = CAPBridge(self, messageHandler, capConfig, specifiedScheme)
 
         if let backgroundColor = (bridge!.config.getValue("ios.backgroundColor") as? String) ?? (bridge!.config.getValue("backgroundColor") as? String) {
-            webView?.backgroundColor = UIColor(fromHex: backgroundColor)
-            webView?.scrollView.backgroundColor = UIColor(fromHex: backgroundColor)
+            webView?.backgroundColor = UIColor.capacitor.color(fromHex: backgroundColor)
+            webView?.scrollView.backgroundColor = UIColor.capacitor.color(fromHex: backgroundColor)
         } else if #available(iOS 13, *) {
             // Use the system background colors if background is not set by user
             webView?.backgroundColor = UIColor.systemBackground
@@ -199,11 +199,6 @@ public class CAPBridgeViewController: UIViewController, CAPBridgeDelegate, WKUID
 
         hostname = bridge!.config.getString("server.url") ?? "\(bridge!.getLocalUrl())"
         allowNavigationConfig = bridge!.config.getValue("server.allowNavigation") as? [String]
-
-        if bridge!.isDevMode() && bridge!.config.getString("server.url") != nil {
-            let toastPlugin = bridge!.getOrLoadPlugin(pluginName: "Toast") as? CAPToastPlugin
-            toastPlugin!.showToast(in: self, text: "Using app server \(hostname!)", duration: 3500)
-        }
 
         CAPLog.print("⚡️  Loading app at \(hostname!)...")
         let request = URLRequest(url: URL(string: hostname!)!)
@@ -308,7 +303,9 @@ public class CAPBridgeViewController: UIViewController, CAPBridgeDelegate, WKUID
         }
 
         if navUrl.absoluteString.range(of: hostname!) == nil && (navigationAction.targetFrame == nil || (navigationAction.targetFrame?.isMainFrame)!) {
-            UIApplication.shared.open(navUrl, options: [:], completionHandler: nil)
+            if UIApplication.shared.applicationState == .active {
+                UIApplication.shared.open(navUrl, options: [:], completionHandler: nil)
+            }
             decisionHandler(.cancel)
             return
         }

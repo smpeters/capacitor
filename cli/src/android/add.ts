@@ -1,45 +1,24 @@
-import { Config } from '../config';
-import {
-  TaskInfoProvider,
-  copyTemplate,
-  getCLIVersion,
-  installDeps,
-  resolveNode,
-  runCommand,
-  runTask,
-} from '../common';
-import { existsAsync, writeFileAsync } from '../util/fs';
 import { homedir } from 'os';
 import { join } from 'path';
 
-export async function addAndroid(config: Config) {
+import c from '../colors';
+import { copyTemplate, runCommand, runTask } from '../common';
+import type { Config } from '../definitions';
+import { existsAsync, writeFileAsync } from '../util/fs';
+
+export async function addAndroid(config: Config): Promise<void> {
   await runTask(
-    `Installing android dependencies`,
-    async (info: TaskInfoProvider) => {
-      if (resolveNode(config, '@capacitor/android')) {
-        info('Skipping: already installed');
-        return;
-      }
-      const cliVersion = await getCLIVersion(config);
-      return installDeps(
-        config.app.rootDir,
-        [`@capacitor/android@${cliVersion}`],
-        config,
-      );
-    },
-  );
-  await runTask(
-    `Adding native android project in: ${config.android.platformDir}`,
+    `Adding native android project in ${c.strong(config.android.platformDir)}`,
     async () => {
       return copyTemplate(
         config.android.assets.templateDir,
-        config.android.platformDir,
+        config.android.platformDirAbs,
       );
     },
   );
 
-  await runTask(`Syncing Gradle`, async () => {
-    return createLocalProperties(config.android.platformDir);
+  await runTask('Syncing Gradle', async () => {
+    return createLocalProperties(config.android.platformDirAbs);
   });
 }
 

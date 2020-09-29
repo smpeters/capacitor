@@ -3,7 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [3.0.0-alpha.0](https://github.com/ionic-team/capacitor/compare/2.3.0...3.0.0-alpha.0) (2020-07-23)
+# [3.0.0-alpha.4](https://github.com/ionic-team/capacitor/compare/3.0.0-alpha.3...3.0.0-alpha.4) (2020-09-23)
+
+
+### Features
+
+* **cli:** ability to specify custom platform directories ([#3565](https://github.com/ionic-team/capacitor/issues/3565)) ([c6eda55](https://github.com/ionic-team/capacitor/commit/c6eda55482ef56abdfe9a33444e828b771af9386))
+
+
+
+# [3.0.0-alpha.3](https://github.com/ionic-team/capacitor/compare/3.0.0-alpha.2...3.0.0-alpha.3) (2020-09-15)
+
+
+### Bug Fixes
+
+* **android:** allow directories beginning with underscore in assets dir to be packaged ([c23d993](https://github.com/ionic-team/capacitor/commit/c23d99315acea2f0894e5ff8a08dd42a867b2982))
+
+
+# [3.0.0-alpha.2](https://github.com/ionic-team/capacitor/compare/3.0.0-alpha.1...3.0.0-alpha.2) (2020-08-31)
+
+
+### Features
+
+* Add extension for creating data from data url ([#3474](https://github.com/ionic-team/capacitor/issues/3474)) ([2909fd0](https://github.com/ionic-team/capacitor/commit/2909fd0ac0d9fdb2cdb7fd25e38742451aa05fb1))
+
+
+
+# [3.0.0-alpha.1](https://github.com/ionic-team/capacitor/compare/3.0.0-alpha.0...3.0.0-alpha.1) (2020-08-21)
+
+
+### Bug Fixes
+
+* **cli:** update plugin template to compile using java 8 ([#3350](https://github.com/ionic-team/capacitor/issues/3350)) ([676917e](https://github.com/ionic-team/capacitor/commit/676917eb81580ea5327d496bd80986e68df6ad04))
+* **core:** provide mock implementation for unimplemented platforms ([#3352](https://github.com/ionic-team/capacitor/issues/3352)) ([befe230](https://github.com/ionic-team/capacitor/commit/befe2300435dbd54b22882fb6586c722f5ef466d))
+* **core:** use more explicit result for Browser plugin events ([#3349](https://github.com/ionic-team/capacitor/issues/3349)) ([75f99d4](https://github.com/ionic-team/capacitor/commit/75f99d4de62a6afb2da0ff876ed3b0d351040184))
+* **core:** use own type for backButton event result ([#3348](https://github.com/ionic-team/capacitor/issues/3348)) ([05d0e45](https://github.com/ionic-team/capacitor/commit/05d0e457eb69d5d39c8bb1d0117bc3d31afdca93))
+* **ios:** config bug from swiftlint refactor ([ace879f](https://github.com/ionic-team/capacitor/commit/ace879f42b19aa064efa80142c3783f736745344))
+
+
+### Features
+
+* **cli:** add fmt script to plugin template ([#3354](https://github.com/ionic-team/capacitor/issues/3354)) ([9ca1e72](https://github.com/ionic-team/capacitor/commit/9ca1e723334f5d21706a8586c11d73162b47a13a))
+* **core:** add unsupported browser exception ([#3389](https://github.com/ionic-team/capacitor/issues/3389)) ([c51e8f8](https://github.com/ionic-team/capacitor/commit/c51e8f8960c795421b35ad1fdd1cd6afbd7a7dfc))
+
+
+
+# [3.0.0-alpha.0](https://github.com/ionic-team/capacitor/compare/2.4.2...3.0.0-alpha.0) (2020-07-23)
 
 
 ### Features
@@ -11,8 +56,59 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **android:** add custom plugins to BridgeFragment ([#3280](https://github.com/ionic-team/capacitor/issues/3280)) ([d131a5f](https://github.com/ionic-team/capacitor/commit/d131a5fed2b9ae29b6952397ec2f81104545b749))
 * **core:** add `registerPlugin` for importing from plugin packages ([#3305](https://github.com/ionic-team/capacitor/issues/3305)) ([95475cc](https://github.com/ionic-team/capacitor/commit/95475cceb4cbd5be2cc7e18f2cf3045eb6c6f7fd))
 
+### Chores
+
+* refactor(android): remove unused interaction listener on BridgeFragment (#3552) ([fae50b6](https://github.com/ionic-team/capacitor/commit/fae50b6)), closes [#3552](https://github.com/ionic-team/capacitor/issues/3552)
 
 
+## [2.4.2](https://github.com/ionic-team/capacitor/compare/2.4.1...2.4.2) (2020-09-24)
+
+
+### Bug Fixes
+
+* fix(android): BridgeFragment NullPointerException (#3553) ([5133e2e](https://github.com/ionic-team/capacitor/commit/5133e2e)), closes [#3553](https://github.com/ionic-team/capacitor/issues/3553)
+* fix(android): move splash screen trigger before the webview render to prevent flicker (2.x) (#3608) ([cbab54c](https://github.com/ionic-team/capacitor/commit/cbab54c)), closes [#3608](https://github.com/ionic-team/capacitor/issues/3608)
+* fix(cli): halt update upon failure (#3595) ([ec086b0](https://github.com/ionic-team/capacitor/commit/ec086b0)), closes [#3595](https://github.com/ionic-team/capacitor/issues/3595)
+* fix(ios): iterate listeners to avoid mutated while being enumerated (#3572) ([fbaab54](https://github.com/ionic-team/capacitor/commit/fbaab54)), closes [#3572](https://github.com/ionic-team/capacitor/issues/3572)
+
+
+## [2.4.1](https://github.com/ionic-team/capacitor/compare/2.4.0...2.4.1) (2020-09-09)
+
+
+### Bug Fixes
+
+* fix(cli): replace SDK variables with default values on Cordova plugins (#3525) ([090427a](https://github.com/ionic-team/capacitor/commit/090427a)), closes [#3525](https://github.com/ionic-team/capacitor/issues/3525)
+* fix(cordova): add CDVPlugin+Resources category for better plugin support (#3380) ([8d89b91](https://github.com/ionic-team/capacitor/commit/8d89b91)), closes [#3380](https://github.com/ionic-team/capacitor/issues/3380)
+
+
+### Chores
+
+* chore(cli): remove cordova-plugin-googlemaps from skip list (#3436) ([cfb74af](https://github.com/ionic-team/capacitor/commit/cfb74af)), closes [#3436](https://github.com/ionic-team/capacitor/issues/3436)
+
+
+## [2.4.0](https://github.com/ionic-team/capacitor/compare/2.3.0...2.4.0) (2020-07-27)
+
+
+### Bug Fixes
+
+* fix(android): don't return 404 on empty files (#3323) ([cfbd1e3](https://github.com/ionic-team/capacitor/commit/cfbd1e3)), closes [#3323](https://github.com/ionic-team/capacitor/issues/3323)
+* fix(android): fix LocalNotification `on` functionality (#3307) ([15af432](https://github.com/ionic-team/capacitor/commit/15af432)), closes [#3307](https://github.com/ionic-team/capacitor/issues/3307)
+* fix(android): Provide a file name when an image is saved to the gallery to prevent crash (#3331) ([a7b9320](https://github.com/ionic-team/capacitor/commit/a7b9320)), closes [#3331](https://github.com/ionic-team/capacitor/issues/3331)
+* fix(cli): avoid npm gitignore rename on new plugins (#3292) ([2c9b5e1](https://github.com/ionic-team/capacitor/commit/2c9b5e1)), closes [#3292](https://github.com/ionic-team/capacitor/issues/3292)
+* fix(ios): only open a URL when the application is active (#3328) ([8d7c58b](https://github.com/ionic-team/capacitor/commit/8d7c58b)), closes [#3328](https://github.com/ionic-team/capacitor/issues/3328)
+
+
+### Features
+
+* feat(camera): add `preserveAspectRatio` resizing option (#3309) ([27a8bcb](https://github.com/ionic-team/capacitor/commit/27a8bcb)), closes [#3309](https://github.com/ionic-team/capacitor/issues/3309)
+
+
+### Chores
+
+* chore: bump peerDependencies for 2.4.0 (#3342) ([2ff7bc4](https://github.com/ionic-team/capacitor/commit/2ff7bc4)), closes [#3342](https://github.com/ionic-team/capacitor/issues/3342)
+* chore: make deploy script push to 2.x branch (#3337) ([d0d30d6](https://github.com/ionic-team/capacitor/commit/d0d30d6)), closes [#3337](https://github.com/ionic-team/capacitor/issues/3337)
+* chore(ci): hook up workflows for 2.x ([89f8ae8](https://github.com/ionic-team/capacitor/commit/89f8ae8))
+* chore(readme): add contributors manually ([519ead8](https://github.com/ionic-team/capacitor/commit/519ead8))
 
 
 ## [2.3.0](https://github.com/ionic-team/capacitor/compare/2.2.1...2.3.0) (2020-07-16)

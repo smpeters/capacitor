@@ -29,10 +29,12 @@ extension CAPPluginCall: JSValueContainer {
         return self.options.index(forKey: key) != nil
     }
 
+    @available(*, deprecated, renamed: "resolve()")
     func success() {
-        successHandler(CAPPluginCallResult(), self)
+        successHandler(CAPPluginCallResult([:]), self)
     }
 
+    @available(*, deprecated, renamed: "resolve")
     func success(_ data: PluginResultData = [:]) {
         successHandler(CAPPluginCallResult(data), self)
     }
@@ -45,6 +47,7 @@ extension CAPPluginCall: JSValueContainer {
         successHandler(CAPPluginCallResult(data), self)
     }
 
+    @available(*, deprecated, renamed: "reject")
     func error(_ message: String, _ error: Error? = nil, _ data: PluginCallErrorData = [:]) {
         errorHandler(CAPPluginCallError(message: message, code: nil, error: error, data: data))
     }

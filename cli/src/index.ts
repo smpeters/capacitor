@@ -1,61 +1,54 @@
 import program from 'commander';
-import chalk from 'chalk';
 
-import { createCommand } from './tasks/create';
-import { initCommand } from './tasks/init';
+import c from './colors';
+import { logFatal } from './common';
+import { loadConfig } from './config';
+import { output } from './log';
+import { addCommand } from './tasks/add';
 import { copyCommand } from './tasks/copy';
+import { createCommand } from './tasks/create';
+import { doctorCommand } from './tasks/doctor';
+import { initCommand } from './tasks/init';
 import { listCommand } from './tasks/list';
-import { updateCommand } from './tasks/update';
+import { newPluginCommand } from './tasks/new-plugin';
 import { openCommand } from './tasks/open';
 import { serveCommand } from './tasks/serve';
 import { syncCommand } from './tasks/sync';
-import { Config } from './config';
-import { addCommand } from './tasks/add';
-import { newPluginCommand } from './tasks/new-plugin';
-import { doctorCommand } from './tasks/doctor';
+import { updateCommand } from './tasks/update';
 import { emoji as _e } from './util/emoji';
 
 process.on('unhandledRejection', error => {
-  console.error(chalk.red('[fatal]'), error);
+  console.error(c.failure('[fatal]'), error);
 });
 
-export function run(process: NodeJS.Process, cliBinDir: string) {
-  const config = new Config(process.platform, process.cwd(), cliBinDir);
+export async function run(): Promise<void> {
+  const config = await loadConfig();
 
   program.version(config.cli.package.version);
 
   program
-    .command('create [directory] [name] [id]')
+    .command('create [directory] [name] [id]', { hidden: true })
     .description('Creates a new Capacitor project')
-    .option(
-      '--npm-client [npmClient]',
-      'Optional: npm client to use for dependency installation',
-    )
-    .action((directory, name, id, { npmClient }) => {
-      return createCommand(config, directory, name, id, npmClient);
+    .action(() => {
+      return createCommand();
     });
 
   program
     .command('init [appName] [appId]')
-    .description('Initializes a new Capacitor project in the current directory')
+    .description('create a capacitor.config.json file')
     .option(
-      '--web-dir [value]',
+      '--web-dir <value>',
       'Optional: Directory of your projects built web assets',
-      config.app.webDir ? config.app.webDir : 'www',
     )
-    .option(
-      '--npm-client [npmClient]',
-      'Optional: npm client to use for dependency installation',
-    )
-    .action((appName, appId, { webDir, npmClient }) => {
-      return initCommand(config, appName, appId, webDir, npmClient);
+    .action((appName, appId, { webDir }) => {
+      return initCommand(config, appName, appId, webDir);
     });
 
   program
-    .command('serve')
+    .command('serve', { hidden: true })
     .description('Serves a Capacitor Progressive Web App in the browser')
     .action(() => {
-      return serveCommand(config);
+      return serveCommand();
     });
 
   program
@@ -118,26 +111,24 @@ export function run(process: NodeJS.Process, cliBinDir: string) {
     });
 
   program
-    .command('plugin:generate')
+    .command('plugin:generate', { hidden: true })
     .description('start a new Capacitor plugin')
     .action(() => {
-      return newPluginCommand(config);
+      return newPluginCommand();
     });
 
-  program.arguments('<command>').action(cmd => {
-    program.outputHelp();
-    console.log(`  ` + chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`));
-    console.log();
+  program.arguments('[command]').action(cmd => {
+    if (typeof cmd === 'undefined') {
+      output.write(
+        `\n  ${_e('⚡️', '--')}  ${c.strong(
+          'Capacitor - Cross-Platform apps with JavaScript and the Web',
+        )}  ${_e('⚡️', '--')}\n\n`,
+      );
+      program.outputHelp();
+    } else {
+      logFatal(`Unknown command: ${c.input(cmd)}`);
+    }
   });
 
   program.parse(process.argv);
-
-  if (program.rawArgs.length < 3) {
-    console.log(
-      `\n  ${_e('⚡️', '--')}  ${chalk.bold(
-        'Capacitor - Cross-Platform apps with JavaScript and the Web',
-      )}  ${_e('⚡️', '--')}`,
-    );
-    program.help();
-  }
 }

@@ -1,5 +1,4 @@
-import { WebPlugin } from './index';
-
+/* eslint-disable */
 import {
   LocalNotificationsPlugin,
   LocalNotificationEnabledResult,
@@ -11,10 +10,12 @@ import {
   NotificationChannel,
   NotificationChannelList,
 } from '../core-plugin-definitions';
-
 import { PermissionsRequestResult } from '../definitions';
 
-export class LocalNotificationsPluginWeb extends WebPlugin
+import { WebPlugin } from './index';
+
+export class LocalNotificationsPluginWeb
+  extends WebPlugin
   implements LocalNotificationsPlugin {
   private pending: LocalNotification[] = [];
 

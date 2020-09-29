@@ -1,39 +1,14 @@
-import { checkCocoaPods } from './common';
-import {
-  CheckFunction,
-  TaskInfoProvider,
-  copyTemplate,
-  getCLIVersion,
-  installDeps,
-  resolveNode,
-  runTask,
-} from '../common';
-import { Config } from '../config';
+import c from '../colors';
+import { copyTemplate, runTask } from '../common';
+import type { Config } from '../definitions';
 
-export const addIOSChecks: CheckFunction[] = [checkCocoaPods];
-
-export async function addIOS(config: Config) {
+export async function addIOS(config: Config): Promise<void> {
   await runTask(
-    `Installing iOS dependencies`,
-    async (info: TaskInfoProvider) => {
-      if (resolveNode(config, '@capacitor/ios')) {
-        info('Skipping: already installed');
-        return;
-      }
-      const cliVersion = await getCLIVersion(config);
-      return installDeps(
-        config.app.rootDir,
-        [`@capacitor/ios@${cliVersion}`],
-        config,
-      );
-    },
-  );
-  await runTask(
-    `Adding native xcode project in: ${config.ios.platformDir}`,
+    `Adding native Xcode project in ${c.strong(config.ios.platformDir)}`,
     () => {
       return copyTemplate(
         config.ios.assets.templateDir,
-        config.ios.platformDir,
+        config.ios.platformDirAbs,
       );
     },
   );
